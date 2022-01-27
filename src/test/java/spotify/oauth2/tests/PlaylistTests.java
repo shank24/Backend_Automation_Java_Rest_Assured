@@ -16,7 +16,7 @@ public class PlaylistTests {
 
     RequestSpecification requestSpecification;
     ResponseSpecification responseSpecification;
-    String access_Token = "BQDAMmyJEVLS3MG807y8vbw_fX_wovBwQ8FOxEMa5o0rPUdlW-OkkQd02Ska9YJUGUFHrEW_2tfZMEsnNiL93QvxZYmJCswoLjLyvqyHCtR6rbC6mlGg4Oo3tdaa-CB2yMJyDPce82KI3BvOP2RDu6uMZDJf7knjh3kyij0mk5dKcsxlliMz-ic-LkFyR0EDWYwt_Zg9fKlkKYbJxnTLPwkdyfBpdiaSWL7h6JPma7uWDtkr";
+    String access_Token = "BQCOvPO084L9guPGYhlO5xMFLw36wVSoZ9CDYRhawR7m5ZxkfEKe9FSlH8RkpW9tOzaJzIq2laB4i2FV3J33HpnopfSB5KLLFON891pKsXu_h1Mgr8QAl8JXcGzDkcroXsGV1ZIku7Qo6rlcOrJBk--StEyVY86-3YT9VQvoFY7oQoPc2LfpONvUUY4Z8o3wpKFTfbFonYxXvnjkt9fzWHIAUh6nZJ6i2t17aaZ-G0ruYqZx";
 
     @BeforeClass
     public void setup(){
@@ -85,7 +85,7 @@ public class PlaylistTests {
     }
 
     /**
-     * Get A Playlist
+     * Update A Playlist
      */
     @Test
     public void shouldBeAbleToUpdatePlaylist(){
@@ -105,5 +105,32 @@ public class PlaylistTests {
                 .assertThat()
                 .statusCode(200);
     }
+
+
+    /**
+     * Negative Scenario
+     * Post A Playlist
+     */
+    @Test
+    public void shouldNotBeAbleToCreatePlaylistWithoutName()
+    {
+        String payload = "{\n" +
+                "  \"name\": \"\",\n" +
+                "  \"description\": \"Jazz\",\n" +
+                "  \"public\": false\n" +
+                "}";
+
+        given(requestSpecification)
+                .body(payload)
+                .when()
+                .post("/users/31uxnqcuy7hrnntpso5yaoe56uzy/playlists")
+                .then()
+                .spec(responseSpecification)
+                .assertThat()
+                .statusCode(400)
+                .body("error.status",equalTo(400),
+                        "error.message",equalTo("Missing required field: name"));
+    }
+
 
 }
