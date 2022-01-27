@@ -16,7 +16,7 @@ public class PlaylistTests {
 
     RequestSpecification requestSpecification;
     ResponseSpecification responseSpecification;
-    String access_Token = "BQCNZiiQcbA6tykY07R6r0KdcqgTlPt0pm0IM4zdiolf0whRcwFxZdkSioaloALElr6SqvJD_H6WWyi_1_DFjSEQVIhaJpBjpLPJnf0T1cxYKvqBb1I0wJwxvdiABY28lPIJL9MJSUgoIYn3YFQBWwbWkv2RLz_3FChSCcCk79Rpl2FwMhjIx6-yJ-cKi2iVpqW19KXwnKdNNg4WiJAqHq3GrhwgxHdFNlYOtwYr_c3c-omg";
+    String access_Token = "BQDAMmyJEVLS3MG807y8vbw_fX_wovBwQ8FOxEMa5o0rPUdlW-OkkQd02Ska9YJUGUFHrEW_2tfZMEsnNiL93QvxZYmJCswoLjLyvqyHCtR6rbC6mlGg4Oo3tdaa-CB2yMJyDPce82KI3BvOP2RDu6uMZDJf7knjh3kyij0mk5dKcsxlliMz-ic-LkFyR0EDWYwt_Zg9fKlkKYbJxnTLPwkdyfBpdiaSWL7h6JPma7uWDtkr";
 
     @BeforeClass
     public void setup(){
@@ -39,7 +39,7 @@ public class PlaylistTests {
          */
         ResponseSpecBuilder responseSpecBuilder = new ResponseSpecBuilder()
                 //.expectStatusCode(201)
-                .expectContentType(ContentType.JSON)
+                //.expectContentType(ContentType.JSON)
                 .log(LogDetail.ALL);
 
         responseSpecification = responseSpecBuilder.build();
@@ -88,10 +88,18 @@ public class PlaylistTests {
      * Get A Playlist
      */
     @Test
-    public void shouldBeAbleToFetchPlaylist(){
+    public void shouldBeAbleToUpdatePlaylist(){
+
+        String payload = "{\n" +
+                "  \"name\": \"Updated Playlist Name\",\n" +
+                "  \"description\": \"Updated playlist description\",\n" +
+                "  \"public\": false\n" +
+                "}";
+
         given(requestSpecification)
+                .body(payload)
                 .when()
-                .get("/playlists/7bCg15yQ33NyMiTR7Hah3N")
+                .put("/playlists/7bCg15yQ33NyMiTR7Hah3N")
                 .then()
                 .spec(responseSpecification)
                 .assertThat()
