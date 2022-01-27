@@ -1,6 +1,5 @@
 package spotify.oauth2.tests;
 
-import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.filter.log.LogDetail;
@@ -46,8 +45,12 @@ public class PlaylistTests {
         responseSpecification = responseSpecBuilder.build();
     }
 
+    /**
+     * Post A Playlist
+     */
     @Test
-    public void shouldBeAbleToCreatePlaylist(){
+    public void shouldBeAbleToCreatePlaylist()
+    {
             String payload = "{\n" +
                     "  \"name\": \"My Playlist\",\n" +
                     "  \"description\": \"Jazz\",\n" +
@@ -65,7 +68,34 @@ public class PlaylistTests {
                     .body("name",equalTo("My Playlist"),
                             "description",equalTo("Jazz"),
                             "public",equalTo(false));
-
-
     }
+
+    /**
+     * Get A Playlist
+     */
+    @Test
+    public void shouldBeAbleToFetchPlaylist(){
+        given(requestSpecification)
+                .when()
+                .get("/playlists/7bCg15yQ33NyMiTR7Hah3N")
+                .then()
+                .spec(responseSpecification)
+                .assertThat()
+                .statusCode(200);
+    }
+
+    /**
+     * Get A Playlist
+     */
+    @Test
+    public void shouldBeAbleToFetchPlaylist(){
+        given(requestSpecification)
+                .when()
+                .get("/playlists/7bCg15yQ33NyMiTR7Hah3N")
+                .then()
+                .spec(responseSpecification)
+                .assertThat()
+                .statusCode(200);
+    }
+
 }
