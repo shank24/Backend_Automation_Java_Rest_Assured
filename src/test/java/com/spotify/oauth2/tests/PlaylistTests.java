@@ -1,8 +1,10 @@
 package com.spotify.oauth2.tests;
 
+import com.spotify.oauth2.api.applicationApi.PlaylistApi;
 import com.spotify.oauth2.pojo.Error;
 import com.spotify.oauth2.pojo.Playlist;
 import io.restassured.http.ContentType;
+import io.restassured.response.Response;
 import org.testng.annotations.Test;
 
 import static com.spotify.oauth2.api.SpecBuilder.getRequestSpec;
@@ -24,23 +26,15 @@ public class PlaylistTests {
                 .setDescription("Blues")
                 .setPublic(false);
 
+        Response response = PlaylistApi.post(requestPlaylist);
+        assertThat(response.statusCode(),equalTo(201));
 
-            Playlist responsePlaylist = given(getRequestSpec())
-                    .body(requestPlaylist)
-                    .when()
-                    .post("/users/31uxnqcuy7hrnntpso5yaoe56uzy/playlists")
-                    .then()
-                    .spec(getResponseSpec())
-                    .assertThat()
-                    .statusCode(201)
-                    .extract()
-                    .response()
-                    .as(Playlist.class);
 
-            assertThat(responsePlaylist.getName(),equalTo(requestPlaylist.getName()));
-            assertThat(responsePlaylist.getDescription(),equalTo(requestPlaylist.getDescription()));
-            assertThat(responsePlaylist.getPublic(),equalTo(requestPlaylist.getPublic()));
-
+        //Deserialzation
+        Playlist responsePlaylist = response.as(Playlist.class);
+        assertThat(responsePlaylist.getName(),equalTo(requestPlaylist.getName()));
+        assertThat(responsePlaylist.getDescription(),equalTo(requestPlaylist.getDescription()));
+        assertThat(responsePlaylist.getPublic(),equalTo(requestPlaylist.getPublic()));
     }
 
     /**
@@ -49,23 +43,15 @@ public class PlaylistTests {
     @Test
     public void shouldBeAbleToFetchPlaylist(){
 
-
         Playlist requestPlaylist = new Playlist()
                 .setName("Updated New Playlist")
                 .setDescription("Updated  Reggae")
                 .setPublic(false);
 
-        Playlist responsePlaylist = given(getRequestSpec())
-                .when()
-                .get("/playlists/7bCg15yQ33NyMiTR7Hah3N")
-                .then()
-                .spec(getResponseSpec())
-                .assertThat()
-                .statusCode(200)
-                .extract()
-                .response()
-                .as(Playlist.class);
+        Response response = PlaylistApi.get("7bCg15yQ33NyMiTR7Hah3N");
+        assertThat(response.statusCode(),equalTo(200));
 
+        Playlist responsePlaylist = response.as(Playlist.class);
         assertThat(responsePlaylist.getName(),equalTo(requestPlaylist.getName()));
         assertThat(responsePlaylist.getDescription(),equalTo(requestPlaylist.getDescription()));
         assertThat(responsePlaylist.getPublic(),equalTo(requestPlaylist.getPublic()));
@@ -78,19 +64,12 @@ public class PlaylistTests {
     public void shouldBeAbleToUpdatePlaylist(){
 
         Playlist requestPlaylist = new Playlist()
-        .setName("Updated New Playlist")
-        .setDescription("Updated  Reggae")
-        .setPublic(false);
+                .setName("Updated New Playlist")
+                .setDescription("Updated  Reggae")
+                .setPublic(false);
 
-        given(getRequestSpec())
-                .body(requestPlaylist)
-                .when()
-                .put("/playlists/7bCg15yQ33NyMiTR7Hah3N")
-                .then()
-                .spec(getResponseSpec())
-                .assertThat()
-                .statusCode(200);
-
+        Response response = PlaylistApi.put(requestPlaylist,"7bCg15yQ33NyMiTR7Hah3N");
+        assertThat(response.statusCode(),equalTo(200));
     }
 
 
@@ -102,24 +81,14 @@ public class PlaylistTests {
     public void shouldNotBeAbleToCreatePlaylistWithoutName()
     {
         Playlist requestPlaylist = new Playlist()
-        .setName("")
-        .setDescription("Updated  Reggae")
-        .setPublic(false);
+                .setName("")
+                .setDescription("Updated  Reggae")
+                .setPublic(false);
 
+        Response response = PlaylistApi.post(requestPlaylist);
+        assertThat(response.statusCode(),equalTo(400));
 
-        Error errorResponse = given(getRequestSpec())
-                .body(requestPlaylist)
-                .when()
-                .post("/users/31uxnqcuy7hrnntpso5yaoe56uzy/playlists")
-                .then()
-                .spec(getResponseSpec())
-                .assertThat()
-                .statusCode(400)
-                .extract()
-                .response()
-                .as(Error.class);
-
-
+        Error errorResponse = response.as(Error.class);
         assertThat(errorResponse.getError().getStatus(),equalTo(400));
         assertThat(errorResponse.getError().getMessage(),equalTo("Missing required field: name"));
 
@@ -132,30 +101,17 @@ public class PlaylistTests {
     @Test
     public void shouldNotBeAbleToCreatePlaylistWithExpiredToken()
     {
+        String invalidToken = "12345";
+
         Playlist requestPlaylist = new Playlist()
-        .setName("")
-        .setDescription("Updated  Reggae")
-        .setPublic(false);
+                .setName("")
+                .setDescription("Updated  Reggae")
+                .setPublic(false);
 
+        Response response = PlaylistApi.post(requestPlaylist,invalidToken);
+        assertThat(response.statusCode(),equalTo(401));
 
-        Error errorResponse = given()
-                .baseUri("https://api.spotify.com")
-                .basePath("/v1")
-                .header("Authorization", "Bearer " + "12345")
-                .contentType(ContentType.JSON)
-                .log()
-                .all()
-                .body(requestPlaylist)
-                .when()
-                .post("/users/31uxnqcuy7hrnntpso5yaoe56uzy/playlists")
-                .then()
-                .spec(getResponseSpec())
-                .assertThat()
-                .statusCode(401)
-                .extract()
-                .response()
-                .as(Error.class);
-
+        Error errorResponse = response.as(Error.class);
         assertThat(errorResponse.getError().getStatus(),equalTo(401));
         assertThat(errorResponse.getError().getMessage(),equalTo("Invalid access token"));
 
