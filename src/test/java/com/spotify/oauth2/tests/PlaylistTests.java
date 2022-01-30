@@ -1,4 +1,4 @@
-package spotify.oauth2.tests;
+package com.spotify.oauth2.tests;
 
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.builder.ResponseSpecBuilder;
