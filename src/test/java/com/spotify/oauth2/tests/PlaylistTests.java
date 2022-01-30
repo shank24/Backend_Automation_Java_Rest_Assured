@@ -19,7 +19,7 @@ public class PlaylistTests {
 
     RequestSpecification requestSpecification;
     ResponseSpecification responseSpecification;
-    String access_Token = "BQCxrTgZcj9fIWq-Yhqlg4zMM2zLlDODe0aHqXO7zIDan8HqHnBYH_0DQyMDzMSKv0LedAo81Sh7tuheM22laXo6IGemLOYOVX4CSuBycTvbvWnHY6pqQ8oTz4jKPHlRifc1xJPJPFw5OIhI1jBgGCL9HrQM-DT-ECiADkvhU3CXK22ZiFmR2FpiD3IV2KwEroTchyJzKtdjcN8Pvj6CTV9YQIcjsyWun-ynwvk0XzSn19GZ";
+    String access_Token = "BQCJpB1NjoRmIVNDsSGgHj0V6CS7KGa7hEtqr18ca1S3CrSRJztbZu71XNZd670ElyTRB5rDjKBscSWp0WXO9wQsJuD4DnLlBkHKBAl11dcAKO0yVGogNFSbss1yDuQ1Sbxcn9aWJDw4Tqn0zoaEG4JvlJ_ejycxWULVWz0jQ3waJY_L3aBmnsw9hPHypitfTH2AcgDwBv3v6_4OsS5U_MMl6vd_PAdj-6g3Zv5PJ6irJjYV";
 
     @BeforeClass
     public void setup(){
@@ -54,12 +54,10 @@ public class PlaylistTests {
     @Test
     public void shouldBeAbleToCreatePlaylist()
     {
-        Playlist requestPlaylist = new Playlist();
-
-        requestPlaylist.setName("New Playlist");
-        requestPlaylist.setDescription("Blues");
-        requestPlaylist.setPublic(false);
-
+        Playlist requestPlaylist = new Playlist()
+                .setName("New Playlist")
+                .setDescription("Blues")
+                .setPublic(false);
 
 
             Playlist responsePlaylist = given(requestSpecification)
@@ -87,12 +85,10 @@ public class PlaylistTests {
     public void shouldBeAbleToFetchPlaylist(){
 
 
-        Playlist requestPlaylist = new Playlist();
-
-        requestPlaylist.setName("Updated New Playlist");
-        requestPlaylist.setDescription("Updated  Reggae");
-        requestPlaylist.setPublic(false);
-
+        Playlist requestPlaylist = new Playlist()
+                .setName("Updated New Playlist")
+                .setDescription("Updated  Reggae")
+                .setPublic(false);
 
         Playlist responsePlaylist = given(requestSpecification)
                 .when()
@@ -116,11 +112,10 @@ public class PlaylistTests {
     @Test
     public void shouldBeAbleToUpdatePlaylist(){
 
-        Playlist requestPlaylist = new Playlist();
-
-        requestPlaylist.setName("Updated New Playlist");
-        requestPlaylist.setDescription("Updated  Reggae");
-        requestPlaylist.setPublic(false);
+        Playlist requestPlaylist = new Playlist()
+        .setName("Updated New Playlist")
+        .setDescription("Updated  Reggae")
+        .setPublic(false);
 
         given(requestSpecification)
                 .body(requestPlaylist)
@@ -141,11 +136,10 @@ public class PlaylistTests {
     @Test
     public void shouldNotBeAbleToCreatePlaylistWithoutName()
     {
-        Playlist requestPlaylist = new Playlist();
-
-        requestPlaylist.setName("");
-        requestPlaylist.setDescription("Updated  Reggae");
-        requestPlaylist.setPublic(false);
+        Playlist requestPlaylist = new Playlist()
+        .setName("")
+        .setDescription("Updated  Reggae")
+        .setPublic(false);
 
 
         Error errorResponse = given(requestSpecification)
@@ -173,11 +167,10 @@ public class PlaylistTests {
     @Test
     public void shouldNotBeAbleToCreatePlaylistWithExpiredToken()
     {
-        Playlist requestPlaylist = new Playlist();
-
-        requestPlaylist.setName("");
-        requestPlaylist.setDescription("Updated  Reggae");
-        requestPlaylist.setPublic(false);
+        Playlist requestPlaylist = new Playlist()
+        .setName("")
+        .setDescription("Updated  Reggae")
+        .setPublic(false);
 
 
         Error errorResponse = given()
