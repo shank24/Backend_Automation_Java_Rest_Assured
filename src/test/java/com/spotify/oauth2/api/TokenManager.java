@@ -7,6 +7,7 @@ import java.time.Instant;
 import java.util.HashMap;
 import static com.spotify.oauth2.api.SpecBuilder.getResponseSpec;
 import static io.restassured.RestAssured.given;
+import static io.restassured.RestAssured.post;
 
 public class TokenManager {
 
@@ -47,18 +48,7 @@ public class TokenManager {
         formParams.put("client_id","d20b8dc9abd34ee38d3eaee105b7c88c");
         formParams.put("client_secret","f8a7d0b2f06e45a5affe6d96ac41feb3");
 
-        Response response = given()
-                .baseUri("https://accounts.spotify.com")
-                .contentType(ContentType.URLENC)
-                .formParams(formParams)
-                .when()
-                .log()
-                .all()
-                .post("/api/token")
-                .then()
-                .spec(getResponseSpec())
-                .extract()
-                .response();
+        Response response = RestResource.postAccount(formParams);
 
         if(response.statusCode()!=200) {
             throw new RuntimeException("ABORT !!!! Renew Token Failed");
