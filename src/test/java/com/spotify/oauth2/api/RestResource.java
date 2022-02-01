@@ -6,6 +6,8 @@ import io.restassured.response.Response;
 
 import java.util.HashMap;
 
+import static com.spotify.oauth2.api.Route.API;
+import static com.spotify.oauth2.api.Route.TOKEN;
 import static com.spotify.oauth2.api.SpecBuilder.getAccountRequestSpec;
 import static com.spotify.oauth2.api.SpecBuilder.getRequestSpec;
 import static com.spotify.oauth2.api.SpecBuilder.getResponseSpec;
@@ -33,7 +35,7 @@ public class RestResource {
         return given(getAccountRequestSpec())
                 .formParams(formParams)
                 .when()
-                .post("/api/token")
+                .post(API + TOKEN)
                 .then()
                 .spec(getResponseSpec())
                 .extract()
