@@ -14,7 +14,6 @@ public class SpecBuilder {
         return new RequestSpecBuilder()
                 .setBaseUri("https://api.spotify.com")
                 .setBasePath("/v1")
-                //requestSpecBuilder.addHeader("x-api-key", ObjectReader.reader.getKey());
                 .setContentType(ContentType.JSON)
                 .log(LogDetail.ALL)
                 .build();
@@ -23,8 +22,16 @@ public class SpecBuilder {
     public static ResponseSpecification getResponseSpec(){
 
         return new ResponseSpecBuilder()
-                //.expectStatusCode(201)
-                //.expectContentType(ContentType.JSON)
-                .log(LogDetail.ALL).build();
+                .log(LogDetail.ALL)
+                .build();
+    }
+
+    public static RequestSpecification getAccountRequestSpec(){
+
+        return new RequestSpecBuilder()
+                .setBaseUri("https://accounts.spotify.com")
+                .setContentType(ContentType.URLENC)
+                .log(LogDetail.ALL)
+                .build();
     }
 }
