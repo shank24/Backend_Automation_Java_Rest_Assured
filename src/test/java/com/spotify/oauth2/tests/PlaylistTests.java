@@ -15,7 +15,7 @@ public class PlaylistTests {
     /**
      * Post A Playlist
      */
-    @Test
+    @Test(description = "Should Be Able To Create A Playlist")
     public void shouldBeAbleToCreatePlaylist()
     {
         Playlist requestPlaylist = getPlaylist("New Playlist", "Blues");
@@ -27,7 +27,7 @@ public class PlaylistTests {
     /**
      * Get A Playlist
      */
-    @Test
+    @Test(description = "Should Be Able To Get A Playlist")
     public void shouldBeAbleToFetchPlaylist(){
 
         Playlist requestPlaylist = getPlaylist("Updated New Playlist", "Updated  Reggae");
@@ -39,7 +39,7 @@ public class PlaylistTests {
     /**
      * Update A Playlist
      */
-    @Test
+    @Test(description = "Should Be Able To Update A Playlist")
     public void shouldBeAbleToUpdatePlaylist(){
 
         Playlist requestPlaylist = getPlaylist("Updated New Playlist", "Updated  Reggae");
@@ -52,7 +52,7 @@ public class PlaylistTests {
      * Negative Scenario
      * Post A Playlist
      */
-    @Test
+    @Test(description = "Should Be Not Able To Create A Playlist Without Name")
     public void shouldNotBeAbleToCreatePlaylistWithoutName()
     {
         Playlist requestPlaylist = getPlaylist("", "Updated  Reggae");
@@ -69,7 +69,8 @@ public class PlaylistTests {
      * Negative Scenario
      * Post A Playlist
      */
-    @Test
+
+    @Test(description = "Should Be Not Able To Create A Playlist Without Token")
     public void shouldNotBeAbleToCreatePlaylistWithExpiredToken()
     {
         String invalidToken = "12345";
