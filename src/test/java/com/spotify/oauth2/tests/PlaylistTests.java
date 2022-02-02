@@ -4,18 +4,26 @@ import com.spotify.oauth2.api.applicationApi.PlaylistApi;
 import com.spotify.oauth2.pojo.Error;
 import com.spotify.oauth2.pojo.Playlist;
 import com.spotify.oauth2.util.DataLoader;
-import io.qameta.allure.Description;
+import io.qameta.allure.*;
 import io.restassured.response.Response;
 import org.testng.annotations.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
+@Epic("Spotify OAuth 2.0")
+@Feature("Playist Api")
+
 public class PlaylistTests {
 
     /**
      * Post A Playlist
      */
+    @Story("Create A Playlist Story")
+    @Link("https://example.org")
+    @Link(name = "allure", type = "mylink")
+    @TmsLink("12345")
+    @Issue("12456")
     @Description("Test - Create A Playlist")
     @Test(description = "Should Be Able To Create A Playlist")
     public void shouldBeAbleToCreatePlaylist()
@@ -29,6 +37,8 @@ public class PlaylistTests {
     /**
      * Get A Playlist
      */
+
+    @Story("Get A Playlist Story")
     @Description("Test - Get A Playlist")
     @Test(description = "Should Be Able To Get A Playlist")
     public void shouldBeAbleToFetchPlaylist(){
@@ -42,6 +52,8 @@ public class PlaylistTests {
     /**
      * Update A Playlist
      */
+
+    @Story("Update A Playlist Story")
     @Description("Test - Update A Playlist")
     @Test(description = "Should Be Able To Update A Playlist")
     public void shouldBeAbleToUpdatePlaylist(){
@@ -56,6 +68,8 @@ public class PlaylistTests {
      * Negative Scenario
      * Post A Playlist
      */
+
+    @Story("Create A Playlist Story Without Name")
     @Description("Test - Create A Playlist Without Name")
     @Test(description = "Should Be Not Able To Create A Playlist Without Name")
     public void shouldNotBeAbleToCreatePlaylistWithoutName()
@@ -66,7 +80,6 @@ public class PlaylistTests {
 
         Error errorResponse = response.as(Error.class);
         assertErrorCode(errorResponse, 400, "Missing required field: name");
-
     }
 
 
@@ -74,7 +87,7 @@ public class PlaylistTests {
      * Negative Scenario
      * Post A Playlist
      */
-
+    @Story("Create A Playlist Story Without Token")
     @Description("Test - Create A Playlist Without Token")
     @Test(description = "Should Be Not Able To Create A Playlist Without Token")
     public void shouldNotBeAbleToCreatePlaylistWithExpiredToken()
