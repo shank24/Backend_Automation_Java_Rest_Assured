@@ -3,11 +3,17 @@ package com.spotify.oauth2.pojo;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.jackson.Jacksonized;
 
 import java.util.List;
 @Getter @Setter
+@Builder
+@Jacksonized
+//With Jacksonized annotation, the lombok
+// will identify and apply the jackson annotations.
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Playlist {

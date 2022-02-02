@@ -84,18 +84,12 @@ public class PlaylistTests {
 
     //Utils method
     private Playlist getPlaylist(String s, String blues) {
-        Playlist playlist = new Playlist();
+        return Playlist.builder()
+                .name(s)
+                .description(blues)
+                ._public(false)
+                .build();
 
-        playlist.setName(s);
-        playlist.setDescription(blues);
-        playlist.set_public(false);
-
-        return playlist;
-
-        /*return new Playlist()
-                .setName(s)
-                .setDescription(blues)
-                .setPublic(false);*/
     }
 
     private void assertPlaylistEqual(Playlist requestPlaylist, Playlist responsePlaylist) {
