@@ -4,6 +4,7 @@ import com.spotify.oauth2.api.applicationApi.PlaylistApi;
 import com.spotify.oauth2.pojo.Error;
 import com.spotify.oauth2.pojo.Playlist;
 import com.spotify.oauth2.util.DataLoader;
+import io.qameta.allure.Description;
 import io.restassured.response.Response;
 import org.testng.annotations.Test;
 
@@ -15,6 +16,7 @@ public class PlaylistTests {
     /**
      * Post A Playlist
      */
+    @Description("Test - Create A Playlist")
     @Test(description = "Should Be Able To Create A Playlist")
     public void shouldBeAbleToCreatePlaylist()
     {
@@ -27,6 +29,7 @@ public class PlaylistTests {
     /**
      * Get A Playlist
      */
+    @Description("Test - Get A Playlist")
     @Test(description = "Should Be Able To Get A Playlist")
     public void shouldBeAbleToFetchPlaylist(){
 
@@ -39,6 +42,7 @@ public class PlaylistTests {
     /**
      * Update A Playlist
      */
+    @Description("Test - Update A Playlist")
     @Test(description = "Should Be Able To Update A Playlist")
     public void shouldBeAbleToUpdatePlaylist(){
 
@@ -52,6 +56,7 @@ public class PlaylistTests {
      * Negative Scenario
      * Post A Playlist
      */
+    @Description("Test - Create A Playlist Without Name")
     @Test(description = "Should Be Not Able To Create A Playlist Without Name")
     public void shouldNotBeAbleToCreatePlaylistWithoutName()
     {
@@ -70,6 +75,7 @@ public class PlaylistTests {
      * Post A Playlist
      */
 
+    @Description("Test - Create A Playlist Without Token")
     @Test(description = "Should Be Not Able To Create A Playlist Without Token")
     public void shouldNotBeAbleToCreatePlaylistWithExpiredToken()
     {
