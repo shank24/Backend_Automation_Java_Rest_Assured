@@ -84,16 +84,24 @@ public class PlaylistTests {
 
     //Utils method
     private Playlist getPlaylist(String s, String blues) {
-        return new Playlist()
+        Playlist playlist = new Playlist();
+
+        playlist.setName(s);
+        playlist.setDescription(blues);
+        playlist.set_public(false);
+
+        return playlist;
+
+        /*return new Playlist()
                 .setName(s)
                 .setDescription(blues)
-                .setPublic(false);
+                .setPublic(false);*/
     }
 
     private void assertPlaylistEqual(Playlist requestPlaylist, Playlist responsePlaylist) {
         assertThat(responsePlaylist.getName(), equalTo(requestPlaylist.getName()));
         assertThat(responsePlaylist.getDescription(), equalTo(requestPlaylist.getDescription()));
-        assertThat(responsePlaylist.getPublic(), equalTo(requestPlaylist.getPublic()));
+        assertThat(responsePlaylist.get_public(), equalTo(requestPlaylist.get_public()));
     }
 
     private void assertErrorCode(Error errorResponse, int i, String s) {
