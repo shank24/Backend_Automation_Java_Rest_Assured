@@ -103,6 +103,7 @@ public class PlaylistTests {
     }
 
     //Utils method
+    @Step
     private Playlist getPlaylist(String s, String blues) {
         return Playlist.builder()
                 .name(s)
@@ -112,18 +113,21 @@ public class PlaylistTests {
 
     }
 
+    @Step
     private void assertPlaylistEqual(Playlist requestPlaylist, Playlist responsePlaylist) {
         assertThat(responsePlaylist.getName(), equalTo(requestPlaylist.getName()));
         assertThat(responsePlaylist.getDescription(), equalTo(requestPlaylist.getDescription()));
         assertThat(responsePlaylist.get_public(), equalTo(requestPlaylist.get_public()));
     }
 
+    @Step
     private void assertErrorCode(Error errorResponse, int i, String s) {
         assertStatusCode(errorResponse.getError().getStatus(), i);
         assertThat(errorResponse.getError().getMessage(), equalTo(s));
     }
 
 
+    @Step
     private void assertStatusCode(int actualStatusCode, int expectedStatusCode) {
         assertThat(actualStatusCode, equalTo(expectedStatusCode));
     }
