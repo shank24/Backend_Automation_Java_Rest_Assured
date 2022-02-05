@@ -8,7 +8,7 @@ public class BaseTest {
 
     @BeforeMethod
     public void beforeMethod(Method method){
-        System.out.println("STARTING Test ->" + method.getName());
-        System.out.println("THREAD ID -> " + Thread.currentThread());
+        System.out.println("STARTING Test -->" + method.getName());
+        System.out.println("THREAD ID --> " + Thread.currentThread());
     }
 }
