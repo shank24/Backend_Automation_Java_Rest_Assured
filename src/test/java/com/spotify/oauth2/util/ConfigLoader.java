@@ -48,4 +48,15 @@ public class ConfigLoader {
         else throw new RuntimeException("Property user_id is not specified in the config.properties file");
     }
 
+    public String getBaseURI(){
+        String prop = properties.getProperty("base_uri");
+        if(prop!=null) return prop;
+        else throw new RuntimeException("Property base_uri is not specified in the config.properties file");
+    }
+
+    public String getAccountBaseURI(){
+        String prop = properties.getProperty("account_base_uri");
+        if(prop!=null) return prop;
+        else throw new RuntimeException("Property account_base_uri is not specified in the config.properties file");
+    }
 }
