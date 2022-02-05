@@ -1,5 +1,6 @@
 package com.spotify.oauth2.tests;
 
+import com.spotify.oauth2.api.StatusCode;
 import com.spotify.oauth2.api.applicationApi.PlaylistApi;
 import com.spotify.oauth2.pojo.Error;
 import com.spotify.oauth2.pojo.Playlist;
@@ -33,7 +34,7 @@ public class PlaylistTests {
     {
         Playlist requestPlaylist = getPlaylist(generateName(), generateDesc());
         Response response = PlaylistApi.post(requestPlaylist);
-        assertStatusCode(response.statusCode(), 201);
+        assertStatusCode(response.statusCode(), StatusCode.CODE_201.getCode());
         assertPlaylistEqual(requestPlaylist, response.as(Playlist.class));
     }
 
@@ -48,7 +49,7 @@ public class PlaylistTests {
 
         Playlist requestPlaylist = getPlaylist("Updated New Playlist", "Updated  Reggae");
         Response response = PlaylistApi.get(DataLoader.getInstance().getPlaylistId());
-        assertStatusCode(response.statusCode(), 200);
+        assertStatusCode(response.statusCode(), StatusCode.CODE_200.getCode());
         assertPlaylistEqual(requestPlaylist, response.as(Playlist.class));
     }
 
@@ -63,7 +64,7 @@ public class PlaylistTests {
 
         Playlist requestPlaylist = getPlaylist(generateName(), generateDesc());
         Response response = PlaylistApi.put(requestPlaylist,DataLoader.getInstance().getUpdatePlaylistId());
-        assertStatusCode(response.statusCode(), 200);
+        assertStatusCode(response.statusCode(), StatusCode.CODE_200.getCode());
     }
 
 
@@ -79,10 +80,10 @@ public class PlaylistTests {
     {
         Playlist requestPlaylist = getPlaylist("", generateDesc());
         Response response = PlaylistApi.post(requestPlaylist);
-        assertStatusCode(response.statusCode(), 400);
+        assertStatusCode(response.statusCode(), StatusCode.CODE_400.getCode());
 
         Error errorResponse = response.as(Error.class);
-        assertErrorCode(errorResponse, 400, "Missing required field: name");
+        assertErrorCode(errorResponse, StatusCode.CODE_400.getCode(), StatusCode.CODE_400.getMsg());
     }
 
 
@@ -98,10 +99,10 @@ public class PlaylistTests {
         String invalidToken = "12345";
         Playlist requestPlaylist = getPlaylist("", generateDesc());
         Response response = PlaylistApi.post(requestPlaylist,invalidToken);
-        assertStatusCode(response.statusCode(), 401);
+        assertStatusCode(response.statusCode(), StatusCode.CODE_401.getCode());
 
         Error errorResponse = response.as(Error.class);
-        assertErrorCode(errorResponse, 401, "Invalid access token");
+        assertErrorCode(errorResponse, StatusCode.CODE_401.getCode(), StatusCode.CODE_401.getMsg());
 
     }
 
