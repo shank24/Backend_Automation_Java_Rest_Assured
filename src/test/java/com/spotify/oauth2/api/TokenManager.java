@@ -1,21 +1,17 @@
 package com.spotify.oauth2.api;
 
 import com.spotify.oauth2.util.ConfigLoader;
-import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 
 import java.time.Instant;
 import java.util.HashMap;
-import static com.spotify.oauth2.api.SpecBuilder.getResponseSpec;
-import static io.restassured.RestAssured.given;
-import static io.restassured.RestAssured.post;
 
 public class TokenManager {
 
     private static String access_Token;
     private static Instant expiry_Time;
 
-    public static String getToken(){
+    public synchronized static String getToken(){
 
         //If current time is after or greater than the expiry_Time Or
         //If token ==null
