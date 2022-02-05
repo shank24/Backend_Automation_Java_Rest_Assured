@@ -8,6 +8,8 @@ import io.qameta.allure.*;
 import io.restassured.response.Response;
 import org.testng.annotations.Test;
 
+import static com.spotify.oauth2.util.FakerUtils.generateDesc;
+import static com.spotify.oauth2.util.FakerUtils.generateName;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
@@ -19,6 +21,7 @@ public class PlaylistTests {
     /**
      * Post A Playlist
      */
+
     @Story("Create A Playlist Story")
     @Link("https://example.org")
     @Link(name = "allure", type = "mylink")
@@ -28,7 +31,7 @@ public class PlaylistTests {
     @Test(description = "Should Be Able To Create A Playlist")
     public void shouldBeAbleToCreatePlaylist()
     {
-        Playlist requestPlaylist = getPlaylist("New Playlist", "Blues");
+        Playlist requestPlaylist = getPlaylist(generateName(), generateDesc());
         Response response = PlaylistApi.post(requestPlaylist);
         assertStatusCode(response.statusCode(), 201);
         assertPlaylistEqual(requestPlaylist, response.as(Playlist.class));
@@ -58,7 +61,7 @@ public class PlaylistTests {
     @Test(description = "Should Be Able To Update A Playlist")
     public void shouldBeAbleToUpdatePlaylist(){
 
-        Playlist requestPlaylist = getPlaylist("Updated New Playlist", "Updated  Reggae");
+        Playlist requestPlaylist = getPlaylist(generateName(), generateDesc());
         Response response = PlaylistApi.put(requestPlaylist,DataLoader.getInstance().getUpdatePlaylistId());
         assertStatusCode(response.statusCode(), 200);
     }
@@ -74,7 +77,7 @@ public class PlaylistTests {
     @Test(description = "Should Be Not Able To Create A Playlist Without Name")
     public void shouldNotBeAbleToCreatePlaylistWithoutName()
     {
-        Playlist requestPlaylist = getPlaylist("", "Updated  Reggae");
+        Playlist requestPlaylist = getPlaylist("", generateDesc());
         Response response = PlaylistApi.post(requestPlaylist);
         assertStatusCode(response.statusCode(), 400);
 
@@ -93,7 +96,7 @@ public class PlaylistTests {
     public void shouldNotBeAbleToCreatePlaylistWithExpiredToken()
     {
         String invalidToken = "12345";
-        Playlist requestPlaylist = getPlaylist("", "Updated  Reggae");
+        Playlist requestPlaylist = getPlaylist("", generateDesc());
         Response response = PlaylistApi.post(requestPlaylist,invalidToken);
         assertStatusCode(response.statusCode(), 401);
 
