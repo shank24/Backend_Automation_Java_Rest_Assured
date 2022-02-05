@@ -34,22 +34,7 @@ public class PlaylistTests {
     {
         Playlist requestPlaylist = getPlaylist(generateName(), generateDesc());
         Response response = PlaylistApi.post(requestPlaylist);
-        assertStatusCode(response.statusCode(), StatusCode.CODE_201.getCode());
-        assertPlaylistEqual(requestPlaylist, response.as(Playlist.class));
-    }
-
-    /**
-     * Get A Playlist
-     */
-
-    @Story("Get A Playlist Story")
-    @Description("Test - Get A Playlist")
-    @Test(description = "Should Be Able To Get A Playlist")
-    public void shouldBeAbleToFetchPlaylist(){
-
-        Playlist requestPlaylist = getPlaylist("Updated New Playlist", "Updated  Reggae");
-        Response response = PlaylistApi.get(DataLoader.getInstance().getPlaylistId());
-        assertStatusCode(response.statusCode(), StatusCode.CODE_200.getCode());
+        assertStatusCode(response.statusCode(), StatusCode.CODE_201);
         assertPlaylistEqual(requestPlaylist, response.as(Playlist.class));
     }
 
@@ -62,10 +47,27 @@ public class PlaylistTests {
     @Test(description = "Should Be Able To Update A Playlist")
     public void shouldBeAbleToUpdatePlaylist(){
 
-        Playlist requestPlaylist = getPlaylist(generateName(), generateDesc());
+        Playlist requestPlaylist = getPlaylist("Updated New Playlist", "Updated  Reggae");
         Response response = PlaylistApi.put(requestPlaylist,DataLoader.getInstance().getUpdatePlaylistId());
-        assertStatusCode(response.statusCode(), StatusCode.CODE_200.getCode());
+        assertStatusCode(response.statusCode(), StatusCode.CODE_200);
     }
+
+
+    /**
+     * Get A Playlist
+     */
+
+    @Story("Get A Playlist Story")
+    @Description("Test - Get A Playlist")
+    @Test(description = "Should Be Able To Get A Playlist")
+    public void shouldBeAbleToFetchPlaylist(){
+
+        Playlist requestPlaylist = getPlaylist("Updated New Playlist", "Updated  Reggae");
+        Response response = PlaylistApi.get(DataLoader.getInstance().getPlaylistId());
+        assertStatusCode(response.statusCode(), StatusCode.CODE_200);
+        assertPlaylistEqual(requestPlaylist, response.as(Playlist.class));
+    }
+
 
 
     /**
@@ -80,10 +82,10 @@ public class PlaylistTests {
     {
         Playlist requestPlaylist = getPlaylist("", generateDesc());
         Response response = PlaylistApi.post(requestPlaylist);
-        assertStatusCode(response.statusCode(), StatusCode.CODE_400.getCode());
+        assertStatusCode(response.statusCode(), StatusCode.CODE_400);
 
         Error errorResponse = response.as(Error.class);
-        assertErrorCode(errorResponse, StatusCode.CODE_400.getCode(), StatusCode.CODE_400.getMsg());
+        assertErrorCode(errorResponse, StatusCode.CODE_400);
     }
 
 
@@ -99,10 +101,10 @@ public class PlaylistTests {
         String invalidToken = "12345";
         Playlist requestPlaylist = getPlaylist("", generateDesc());
         Response response = PlaylistApi.post(requestPlaylist,invalidToken);
-        assertStatusCode(response.statusCode(), StatusCode.CODE_401.getCode());
+        assertStatusCode(response.statusCode(), StatusCode.CODE_401);
 
         Error errorResponse = response.as(Error.class);
-        assertErrorCode(errorResponse, StatusCode.CODE_401.getCode(), StatusCode.CODE_401.getMsg());
+        assertErrorCode(errorResponse, StatusCode.CODE_401);
 
     }
 
@@ -125,15 +127,15 @@ public class PlaylistTests {
     }
 
     @Step
-    private void assertErrorCode(Error errorResponse, int i, String s) {
-        assertStatusCode(errorResponse.getError().getStatus(), i);
-        assertThat(errorResponse.getError().getMessage(), equalTo(s));
+    private void assertErrorCode(Error errorResponse, StatusCode statusCode) {
+        assertThat(errorResponse.getError().getStatus(), equalTo(statusCode.code));
+        assertThat(errorResponse.getError().getMessage(), equalTo(statusCode.msg));
     }
 
 
     @Step
-    private void assertStatusCode(int actualStatusCode, int expectedStatusCode) {
-        assertThat(actualStatusCode, equalTo(expectedStatusCode));
+    private void assertStatusCode(int actualStatusCode, StatusCode statusCode) {
+        assertThat(actualStatusCode, equalTo(statusCode.code));
     }
 
 }
