@@ -15,7 +15,8 @@ public class SpecBuilder {
     public static RequestSpecification getRequestSpec(){
 
         return new RequestSpecBuilder()
-                .setBaseUri(ConfigLoader.getInstance().getBaseURI())
+                //.setBaseUri(ConfigLoader.getInstance().getBaseURI())
+                .setBaseUri(System.getProperty("BASE_URI"))
                 .setBasePath(BASE_PATH)
                 .setContentType(ContentType.JSON)
                 .addFilter(new AllureRestAssured())
@@ -33,7 +34,8 @@ public class SpecBuilder {
     public static RequestSpecification getAccountRequestSpec(){
 
         return new RequestSpecBuilder()
-                .setBaseUri(ConfigLoader.getInstance().getAccountBaseURI())
+                //.setBaseUri(ConfigLoader.getInstance().getAccountBaseURI())
+                .setBaseUri(System.getProperty("ACCOUNT_BASE_URI"))
                 .setContentType(ContentType.URLENC)
                 .addFilter(new AllureRestAssured())
                 .log(LogDetail.ALL)
